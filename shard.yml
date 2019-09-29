@@ -1,0 +1,9 @@
+name: base32
+version: 0.0.1
+
+authors:
+  - LeMarsu <ch.ruelle@lemarsu.com>
+
+crystal: 0.31.0
+
+license: MIT
