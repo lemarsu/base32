@@ -1,30 +1,57 @@
+require "./base32/config.cr"
+
 module Base32
   VERSION = "0.0.1"
   class Error < Exception; end
 
-  private CHARS = "0123456789ABCDEFGHJKMNPQRSTVWXYZ"
+  RFC_4648 = Config.new(
+    alphabet: "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567",
+    padding: true,
+    charmap: {
+      '0' => 'O',
+      '1' => 'I'
+    }
+  )
+
+  Crocford = Config.new(
+    "0123456789ABCDEFGHJKMNPQRSTVWXYZ",
+    padding: false,
+    charmap: {
+      'O' => '0',
+      'I' => '1',
+      'L' => '1'
+    }
+  )
+
+  Hex = Config.new(
+    "0123456789ABCDEFGHIJKLMNOPQRSTUV",
+    padding: true,
+    charmap: {} of Char => Char
+  )
 
   extend self
 
-  def encode(buffer : String) : String
-    encode(buffer.to_slice)
+  def encode(buffer : String, config = RFC_4648) : String
+    encode(buffer.to_slice, config)
   end
 
-  def encode(buffer : Slice) : String
-    String.build do |io|
+  def encode(buffer : Bytes, config = RFC_4648) : String
+    str = String.build do |io|
       each_5_bits(buffer) do |symbol|
-        io << CHARS[symbol]
+        io << config.alphabet[symbol]
       end
     end
+    return str if str.size % 8 == 0 || !config.padding
+    str + "=" * (8 - str.size % 8)
   end
 
-  def decode(buffer : String) : Bytes
+  def decode(buffer : String, config = RFC_4648) : Bytes
     shift = 8i32
     carry = 0u8
     array = [] of UInt8
-    buffer.to_slice.each do |byte|
-      next if byte == '='
-      symbol = CHARS.byte_index(byte).not_nil! & 0xFF
+    buffer.each_char do |char|
+      next if char == '='
+      symbol = config.alphabet.index(char).not_nil! & 0xFF
 
       shift -= 5;
 
@@ -40,7 +67,7 @@ module Base32
         carry = 0
       end
     end
-    Slice(UInt8).new(array.to_unsafe, array.size)
+    Bytes.new(array.to_unsafe, array.size)
   end
 
   # 1: 00000 000
