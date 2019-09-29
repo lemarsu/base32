@@ -13,7 +13,7 @@ module Base32
     }
   )
 
-  Crocford = Config.new(
+  Crockford = Config.new(
     "0123456789ABCDEFGHJKMNPQRSTVWXYZ",
     charmap: {
       'O' => '0',

@@ -7,8 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.1.0] - 2019-09-29
 
 ### Added
- - Can encode Base32 (RFC 4648, Base32Hex, Crocford or Custom)
- - Can decode Base32 (RFC 4648, Base32Hex, Crocford or Custom)
+ - Can encode Base32 (RFC 4648, Base32Hex, Crockford or Custom)
+ - Can decode Base32 (RFC 4648, Base32Hex, Crockford or Custom)
  - Decoding can handle extra characters
  - Handle padding
  - can configure padding character
