@@ -10,7 +10,7 @@ Encode and decode with multiple Base32 alphabets.
    dependencies:
      base32:
        github: lemarsu/base32
-       version: 0.1.0
+       version: 0.1.1
    ```
 
 2. Run `shards install`
@@ -33,10 +33,10 @@ Base32.encode("Hello world", Base32::Hex) # => "91IMOR3F41RMUSJCCGGG===="
 Base32.decode("91IMOR3F41RMUSJCCGGG====", Base32::Hex) # => "Hello world".to_slice
 
 # Encode Base32 with Crockford
-Base32.encode("Hello world", Base32::Crocford) # => "91JPRV3F41VPYWKCCGGG"
+Base32.encode("Hello world", Base32::Crockford) # => "91JPRV3F41VPYWKCCGGG"
 
 # Decode Base32 with Crockford
-Base32.decode("91JPRV3F41VPYWKCCGGG", Base32::Crocford) # => "Hello world".to_slice
+Base32.decode("91JPRV3F41VPYWKCCGGG", Base32::Crockford) # => "Hello world".to_slice
 ```
 
 You can also configure your own and custom Base32 configuration
