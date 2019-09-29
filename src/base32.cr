@@ -1,7 +1,7 @@
 require "./base32/config.cr"
 
 module Base32
-  VERSION = "0.0.1"
+  VERSION = "0.1.1"
   class Error < Exception; end
 
   RFC_4648 = Config.new(
