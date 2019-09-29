@@ -49,7 +49,7 @@ module Base32
     carry = 0u8
     array = [] of UInt8
     buffer.upcase.each_char do |char|
-      next if char == '='
+      next if config.padding? && char == config.padding
       symbol = config.charmap[char] & 0xFF
 
       shift -= 5;

@@ -55,9 +55,9 @@ custom_config = Base32::Config.new(
 Base32.encode("Hello world!", custom_config) # => "UA3ZEVDOBAVZR6Y88JJJ!!!!"
 
 # The optional charmap is used for decoding
-Base32.encode("UA3ZEVDOBAVZR6Y88JJJ!!!!", custom_config) # => "Hello world!".to_slice
-Base32.encode("ua3zevdobavzr6y88jjj!!!!", custom_config) # => "Hello world!".to_slice
-Base32.encode("ua3zevd0bavzr6y88jjj!!!!", custom_config) # => "Hello world!".to_slice
+Base32.decode("UA3ZEVDOBAVZR6Y88JJJ!!!!", custom_config) # => "Hello world!".to_slice
+Base32.decode("ua3zevdobavzr6y88jjj!!!!", custom_config) # => "Hello world!".to_slice
+Base32.decode("ua3zevd0bavzr6y88jjj!!!!", custom_config) # => "Hello world!".to_slice
 ```
 
 ## Contributing
