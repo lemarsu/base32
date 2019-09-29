@@ -43,22 +43,21 @@ You can also configure your own and custom Base32 configuration
 
 ```crystal
 custom_config = Base32::Config.new(
-  "0123456789NJPQRSTUVWXYZABCDEFGHK",
-  padding: false,
+  "CAHDBNT2FUW58KQOJM3YXSZLE7PV6GR4",
+  padding: '!',
   charmap: {
-    'I' => '1',
-    'L' => '1',
-    'O' => '0',
+    'I' => 'L',
+    '1' => 'L',
+    '0' => 'O',
   }
 )
 
-Base32.encode("Hello world!", custom_config) # => "91VZBE3S41EZHFWPPTTT"
+Base32.encode("Hello world!", custom_config) # => "UA3ZEVDOBAVZR6Y88JJJ!!!!"
 
 # The optional charmap is used for decoding
-Base32.encode("91VZBE3S41EZHFWPPTTT", custom_config) # => "Hello world!".to_slice
-Base32.encode("91vzbe3s41ezhfwppttt", custom_config) # => "Hello world!".to_slice
-Base32.encode("9ivzbe3s41ezhfwppttt", custom_config) # => "Hello world!".to_slice
-Base32.encode("9lvzbe3s41ezhfwppttt", custom_config) # => "Hello world!".to_slice
+Base32.decode("UA3ZEVDOBAVZR6Y88JJJ!!!!", custom_config) # => "Hello world!".to_slice
+Base32.decode("ua3zevdobavzr6y88jjj!!!!", custom_config) # => "Hello world!".to_slice
+Base32.decode("ua3zevd0bavzr6y88jjj!!!!", custom_config) # => "Hello world!".to_slice
 ```
 
 ## Contributing

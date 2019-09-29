@@ -28,6 +28,20 @@ describe Base32 do
     it "with Base32Hex" do
       Base32.encode("Hello world!", Base32::Hex).should eq "91IMOR3F41RMUSJCCGGG===="
     end
+
+    it "with custom config" do
+      custom_config = Base32::Config.new(
+        "CAHDBNT2FUW58KQOJM3YXSZLE7PV6GR4",
+        padding: '!',
+        charmap: {
+          'I' => 'L',
+          '1' => 'L',
+          '0' => 'O',
+        }
+      )
+
+      Base32.encode("Hello world!", custom_config).should eq "UA3ZEVDOBAVZR6Y88JJJ!!!!"
+    end
   end
 
   describe "#decode" do
@@ -54,6 +68,22 @@ describe Base32 do
     it "with Base32Hex" do
       Base32.decode("91IMOR3F41RMUSJCCGGG====", Base32::Hex).should eq "Hello world!".to_slice
       Base32.decode("91imor3f41rmusjccggg====", Base32::Hex).should eq "Hello world!".to_slice
+    end
+
+    it "with custom alphabet" do
+      custom_config = Base32::Config.new(
+        "CAHDBNT2FUW58KQOJM3YXSZLE7PV6GR4",
+        padding: '!',
+        charmap: {
+          'I' => 'L',
+          '1' => 'L',
+          '0' => 'O',
+        }
+      )
+
+      Base32.decode("UA3ZEVDOBAVZR6Y88JJJ!!!!", custom_config).should eq "Hello world!".to_slice
+      Base32.decode("ua3zevdobavzr6y88jjj!!!!", custom_config).should eq "Hello world!".to_slice
+      Base32.decode("ua3zevd0bavzr6y88jjj!!!!", custom_config).should eq "Hello world!".to_slice
     end
 
     it "should raise on wrong alphabet" do
