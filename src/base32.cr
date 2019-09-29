@@ -68,6 +68,9 @@ module Base32
       end
     end
     Bytes.new(array.to_unsafe, array.size)
+
+  rescue ex : KeyError
+    raise Error.new("Unknown char '#{ex.message.not_nil![-2]}'")
   end
 
   # 1: 00000 000

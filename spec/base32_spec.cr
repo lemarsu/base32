@@ -54,5 +54,17 @@ describe Base32 do
       Base32.decode("91IMOR3F41RMUSJCCGGG====", Base32::Hex).should eq "Hello world!".to_slice
       Base32.decode("91imor3f41rmusjccggg====", Base32::Hex).should eq "Hello world!".to_slice
     end
+
+    it "should raise on wrong alphabet" do
+      expect_raises Base32::Error, "Unknown char" do
+        Base32.decode("189", Base32::RFC_4648)
+      end
+      expect_raises Base32::Error, "Unknown char" do
+        Base32.decode("u", Base32::Crocford)
+      end
+      expect_raises Base32::Error, "Unknown char" do
+        Base32.decode("wxyz", Base32::Hex)
+      end
+    end
   end
 end
