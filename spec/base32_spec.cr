@@ -17,6 +17,7 @@ describe Base32 do
       Base32.encode("\xDE\xAD", Base32::Crocford).should eq "VTPG"
       Base32.encode("\xFF\xFF", Base32::Crocford).should eq "ZZZG"
       Base32.encode("\xFF\xFF", Base32::Crocford).should eq "ZZZG"
+      Base32.encode("Hello world!", Base32::Crocford).should eq "91JPRV3F41VPYWKCCGGG"
     end
 
     it "with RFC_4648" do
