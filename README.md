@@ -1,4 +1,4 @@
-# base32
+# Base32
 
 Encode and decode with multiple Base32 alphabets.
 
