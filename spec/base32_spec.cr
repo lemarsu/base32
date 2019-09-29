@@ -38,15 +38,21 @@ describe Base32 do
       Base32.decode("0400", Base32::Crocford).should eq "\x01\x00".to_slice
       Base32.decode("VTPG", Base32::Crocford).should eq "\xDE\xAD".to_slice
       Base32.decode("ZZZG", Base32::Crocford).should eq "\xFF\xFF".to_slice
+      Base32.decode("91JPRV3F41VPYWKCCGGG", Base32::Crocford).should eq "Hello world!".to_slice
+      Base32.decode("91jprv3f41vpywkccggg", Base32::Crocford).should eq "Hello world!".to_slice
+      Base32.decode("9ljprv3f41vpywkccggg", Base32::Crocford).should eq "Hello world!".to_slice
+      Base32.decode("8xqpys32f5jjoxvfe9p6888", Base32::Crocford).should eq "Goodbye world!".to_slice
     end
 
     it "with RFC_4648" do
       Base32.decode("JBSWY3DPEB3W64TMMQQQ====").should eq "Hello world!".to_slice
       Base32.decode("JBSWY3DPEB3W64TMMQQQ====", Base32::RFC_4648).should eq "Hello world!".to_slice
+      Base32.decode("jbswy3dpeb3w64tmmqqq====", Base32::RFC_4648).should eq "Hello world!".to_slice
     end
 
     it "with Base32Hex" do
       Base32.decode("91IMOR3F41RMUSJCCGGG====", Base32::Hex).should eq "Hello world!".to_slice
+      Base32.decode("91imor3f41rmusjccggg====", Base32::Hex).should eq "Hello world!".to_slice
     end
   end
 end

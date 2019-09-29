@@ -49,9 +49,9 @@ module Base32
     shift = 8i32
     carry = 0u8
     array = [] of UInt8
-    buffer.each_char do |char|
+    buffer.upcase.each_char do |char|
       next if char == '='
-      symbol = config.alphabet.index(char).not_nil! & 0xFF
+      symbol = config.charmap[char] & 0xFF
 
       shift -= 5;
 
