@@ -6,7 +6,7 @@ module Base32
 
   RFC_4648 = Config.new(
     alphabet: "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567",
-    padding: true,
+    padding: '=',
     charmap: {
       '0' => 'O',
       '1' => 'I'
@@ -15,7 +15,6 @@ module Base32
 
   Crocford = Config.new(
     "0123456789ABCDEFGHJKMNPQRSTVWXYZ",
-    padding: false,
     charmap: {
       'O' => '0',
       'I' => '1',
@@ -25,7 +24,7 @@ module Base32
 
   Hex = Config.new(
     "0123456789ABCDEFGHIJKLMNOPQRSTUV",
-    padding: true,
+    padding: '=',
     charmap: {} of Char => Char
   )
 
@@ -41,8 +40,8 @@ module Base32
         io << config.alphabet[symbol]
       end
     end
-    return str if str.size % 8 == 0 || !config.padding
-    str + "=" * (8 - str.size % 8)
+    return str if str.size % 8 == 0 || !config.padding?
+    str + config.padding.to_s * (8 - str.size % 8)
   end
 
   def decode(buffer : String, config = RFC_4648) : Bytes
@@ -50,7 +49,7 @@ module Base32
     carry = 0u8
     array = [] of UInt8
     buffer.upcase.each_char do |char|
-      next if char == '='
+      next if config.padding? && char == config.padding
       symbol = config.charmap[char] & 0xFF
 
       shift -= 5;
