@@ -1,7 +1,7 @@
 require "./base32/config.cr"
 
 module Base32
-  VERSION = "0.1.1"
+  VERSION = "0.1.2"
   class Error < Exception; end
 
   RFC_4648 = Config.new(
@@ -47,7 +47,7 @@ module Base32
   def decode(buffer : String, config = RFC_4648) : Bytes
     shift = 8i32
     carry = 0u8
-    array = [] of UInt8
+    io = IO::Memory.new
     buffer.upcase.each_char do |char|
       next if config.padding? && char == config.padding
       symbol = config.charmap[char] & 0xFF
@@ -57,16 +57,16 @@ module Base32
       if shift > 0
         carry |= symbol << shift
       elsif shift < 0
-        array << (carry | (symbol >> -shift)).to_u8
+        io.write_byte (carry | (symbol >> -shift)).to_u8
         shift += 8
         carry = (symbol << shift) & 0xFF
       else
-        array << (carry | symbol).to_u8
+        io.write_byte (carry | symbol).to_u8
         shift = 8
         carry = 0
       end
     end
-    Bytes.new(array.to_unsafe, array.size)
+    io.to_slice
 
   rescue ex : KeyError
     raise Error.new("Unknown char '#{ex.message.not_nil![-2]}'")

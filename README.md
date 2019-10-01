@@ -10,7 +10,7 @@ Encode and decode with multiple Base32 alphabets.
    dependencies:
      base32:
        github: lemarsu/base32
-       version: 0.1.1
+       version: 0.1.2
    ```
 
 2. Run `shards install`
